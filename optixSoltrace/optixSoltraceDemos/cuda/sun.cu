@@ -75,8 +75,8 @@ __device__ float3 sampleRayDirection(float max_angle, unsigned int seed) {
     curand_init(seed, 0, 0, &rng_state);
 
     // Sample a random angle within the cone's angular spread
-    float angle = max_angle * curand_uniform(&rng_state);   // Random angle within max angular spread
-    float phi = 2.0f * M_PIf * curand_uniform(&rng_state);  // Random azimuthal angle
+    float angle = max_angle * curand_normal(&rng_state);   // Random angle within max angular spread
+    float phi = 2.0f * M_PIf * curand_normal(&rng_state);  // Random azimuthal angle
 
     // Convert spherical coordinaes to Cartesian for ray direction
     float x = sinf(angle) * cosf(phi);
