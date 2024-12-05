@@ -10,9 +10,8 @@
 namespace soltrace
 {
 const unsigned int NUM_ATTRIBUTE_VALUES = 4u;
-const unsigned int NUM_PAYLOAD_VALUES   = 4u;
-const unsigned int MAX_TRACE_DEPTH      = 8u;
-const unsigned int MAX_HITS             = 100u;     //  Maximum number of hit points to store in RayPath
+const unsigned int NUM_PAYLOAD_VALUES   = 2u;
+const unsigned int MAX_TRACE_DEPTH      = 5u;
     
 struct HitGroupData
 {
@@ -32,7 +31,8 @@ struct LaunchParams
     unsigned int                height;
     int                         max_depth;
 
-    float3*                     output_buffer;      // TODO: Is this buffer only for image output? If so, can delete
+    float4*                     hit_point_buffer;
+    float4*                     reflected_dir_buffer;
     OptixTraversableHandle      handle;
 
     float3                      sun_center;
@@ -40,34 +40,13 @@ struct LaunchParams
     float                       max_sun_angle;
     int                         num_sun_points;
     float3                      scene_position;
-};
-
-struct RayPaths
-{
-    unsigned int num_hits;                       // Hit point count
-    float3 hit_points[MAX_HITS];        // Hit points array
+    OptixAabb                   scene_aabb;
 };
 
 struct PerRayData
 {
     unsigned int ray_path_index;  // Index of the ray in the ray path buffer
-    unsigned int hit_count;       // Number of hits recorded along this ray
+    unsigned int depth;           // Trace depth
 };
-
-//struct RayPath
-//{
-//    float3 points[10];          // Array to store hit points along the ray path
-//    int point_count;            // Tracks how many points have been recorded
-//};
-//
-//struct PayloadRadiance
-//{
-//    RayPath path_data;          // Path data structure to store ray path
-//};
-
-// struct PayloadOcclusion         // not using shadow rays right now
-// {
-//     float3 result;
-// };
 
 } // end namespace soltrace
